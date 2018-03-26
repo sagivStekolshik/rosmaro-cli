@@ -1,0 +1,23 @@
+{
+  "name": "rosmaro-cli",
+  "version": "1.0.0",
+  "description": "Command line interface for rosmaro",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sagivStekolshik/rosmaro-cli.git"
+  },
+  "keywords": [
+    "rosmaro",
+    "state-machine"
+  ],
+  "author": "Sagiv Stekolshik",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sagivStekolshik/rosmaro-cli/issues"
+  },
+  "homepage": "https://github.com/sagivStekolshik/rosmaro-cli#readme"
+}
