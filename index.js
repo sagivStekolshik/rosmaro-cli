@@ -18,7 +18,8 @@ program
     .command('init [env]')
     .description('init rosmaro try')
     .option("-u, --url <url>", "get graph from a url")
-    .action((env, options) => {
+    .action((env, { url
+    }) => {
         log(options.url)
         log(chalk.greenBright.underline.dim('WIP'));
     });
@@ -40,7 +41,7 @@ program
     .command('update [entry]')
     .description('Update ./handler from graph.json')
     .option("-m, --handler-method <renderMethod>", `define the render method, ${defualtRenderField} by default`)
-    .action(async (entry = "graph.json",{renderMethod = defualtRenderField}) => {
+    .action(async (entry = "graph.json", { renderMethod = defualtRenderField }) => {
         log(chalk.blue.bold('Generating...'))
         // get the json representation of rosmaro
         let graph = {}
