@@ -1,0 +1,29 @@
+{
+    "main": {
+      "type": "graph",
+      "nodes": {
+        "Prince": "Prince",
+        "Frog": "Frog"
+      },
+      "arrows": {
+        "Prince": {
+          "ate pizza": {
+            "target": "Frog",
+            "entryPoint": "start"
+          }
+        }
+      },
+      "entryPoints": {
+        "start": {
+          "target": "Prince",
+          "entryPoint": "start"
+        }
+      }
+    },
+    "Prince": {
+      "type": "leaf"
+    },
+    "Frog": {
+      "type": "leaf"
+    }
+  }

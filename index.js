@@ -5,9 +5,10 @@ const program = require('commander');
 const pkg = require('./package.json');
 const chalk = require('chalk');
 const fs = require('fs-extra');
+const beautify = require('js-beautify').js_beautify
 const { log } = console
 
-
+const defualtHandlerParams = '{ctx,thisModel,ModelNode}'
 program
     .version(pkg.version)
     .option("-v, --version", pkg.version)
@@ -31,16 +32,59 @@ program
 program
     .command('update')
     .description('Update ./handler from graph.json')
-    .action(() => {
+    .action(async () => {
         log(chalk.blue.bold('starting...'))
-        // check if graph.json is present
-        const graph = fs.readJsonSync('./graph.json', { throws: false })
-        if(!graph)
-            log(chalk.red.bold("graph.json"),"was not found or dose not contain Json")
-        else {
-            // if pragh object was detected succesfuly
-            
+        // get the json representation of rosmaro
+        let graph = {}
+
+        try {
+            graph = await fs.readJson('./graph.json')
+
+            if (!graph.main) {
+                log("Graph must contain main as enrty")
+                return
+            }
         }
+        catch (err) {
+            // check if graph.json is present
+            log(chalk.red.bold("graph.json"), "was not found or dose not contain Json")
+            return
+        }
+        try {
+            await fs.ensureDir("./handlers")
+            await fs.outputFile('./handlers/main.js',
+                beautify(`export default ()=>{initCtx: {}}`, { indent_size: 2 })
+            )
+
+            const mainNodes = Object.keys(graph.main.nodes);
+
+            // TODO make a more general thing and recursive if needed?
+            await Object.keys(graph.main.nodes).map((item) => {
+                fs.outputFile(`./handlers/${item}.js`,
+                    beautify(`export default (${defualtHandlerParams})=>({${addArrowStringToHandler(graph.main.arrows[item])}render: ()=> {}})`, { indent_size: 2, jslint_happy: true })
+                )
+                log(chalk`{green ${item} handler created }`)
+            })
+
+            await fs.outputFile('./handlers/all.js',
+                beautify(`${mainNodes.map(node => `import ${node} from './${node}'`).join(" ")}  
+                export default ({${mainNodes},main})`)
+            )
+        } catch (err) {
+            log(chalk.red.bold(`an error occured`, err))
+        }
+
     })
 program.parse(process.argv);
 
+const capitalize = string => string.charAt(0).toUpperCase() + string.slice(1);
+
+const addArrowStringToHandler = arrows => {
+    if (!arrows) return ""
+    const keys = Object.keys(arrows)
+    return keys.map(item => {
+        return `${toCamelCase(item)}: () => ({arrow: "${item}"}), `
+    })
+}
+
+const toCamelCase = notCamelized => notCamelized.split(" ").map((item, index) => index === 0 ? item.toLowerCase() : capitalize(item)).join('');
