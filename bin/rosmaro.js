@@ -1,3 +1,3 @@
 #!/usr/bin/env node
 
-require('rosmaro.js');
+require('./rosmaro');
