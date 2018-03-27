@@ -12,7 +12,9 @@
   },
   "keywords": [
     "rosmaro",
-    "state-machine"
+    "state-machine",
+    "cli",
+    "command line interface"
   ],
   "author": "Sagiv Stekolshik",
   "license": "MIT",

@@ -9,6 +9,7 @@ const beautify = require('js-beautify').js_beautify
 const { log } = console
 
 const defualtHandlerParams = '{ctx,thisModel,ModelNode}'
+const defualtRenderField = 'render'
 program
     .version(pkg.version)
     .option("-v, --version", pkg.version)
@@ -19,26 +20,33 @@ program
     .option("-u, --url <url>", "get graph from a url")
     .action((env, options) => {
         log(options.url)
-        log(chalk.blue.bold('WIP'));
+        log(chalk.greenBright.underline.dim('WIP'));
     });
 
-program
-    .command('add <nodeName>')
-    .description('add node to ./handler/all.js file and generate a template with nodeName.js')
-    .action(nodeName => {
-        log(chalk.red("Generating ", nodeName))
-    })
+/**
+|--------------------------------------------------
+| not sure if needed
+| you need to make change in the graph.json and then use update with more ease
+|--------------------------------------------------
+*/
+// program
+//     .command('add <nodeName>')
+//     .description('add node to ./handler/all.js file and generate a template with nodeName.js')
+//     .action(nodeName => {
+//         log(chalk.red("Generating ", nodeName))
+//     })
 
 program
-    .command('update')
+    .command('update [entry]')
     .description('Update ./handler from graph.json')
-    .action(async () => {
-        log(chalk.blue.bold('starting...'))
+    .option("-m, --handler-method <renderMethod>", `define the render method, ${defualtRenderField} by default`)
+    .action(async (entry = "graph.json",{renderMethod = defualtRenderField}) => {
+        log(chalk.blue.bold('Generating...'))
         // get the json representation of rosmaro
         let graph = {}
 
         try {
-            graph = await fs.readJson('./graph.json')
+            graph = await fs.readJson(`${entry}`)
 
             if (!graph.main) {
                 log("Graph must contain main as enrty")
@@ -47,7 +55,7 @@ program
         }
         catch (err) {
             // check if graph.json is present
-            log(chalk.red.bold("graph.json"), "was not found or dose not contain Json")
+            log(chalk.red.bold(entry), "was not found or dose not contain Json")
             return
         }
         try {
@@ -61,7 +69,7 @@ program
             // TODO make a more general thing and recursive if needed?
             await Object.keys(graph.main.nodes).map((item) => {
                 fs.outputFile(`./handlers/${item}.js`,
-                    beautify(`export default (${defualtHandlerParams})=>({${addArrowStringToHandler(graph.main.arrows[item])}render: ()=> {}})`, { indent_size: 2, jslint_happy: true })
+                    beautify(`export default (${defualtHandlerParams})=>({${addArrowStringToHandler(graph.main.arrows[item])} ${renderMethod || defualtRenderField}: ()=> {}})`, { indent_size: 2, jslint_happy: true })
                 )
                 log(chalk`{green ${item} handler created }`)
             })
@@ -81,7 +89,6 @@ program.parse(process.argv);
 const capitalize = string => string.charAt(0).toUpperCase() + string.slice(1);
 
 const addArrowStringToHandler = arrows => arrows ? Object.keys(arrows).map(item => `${toCamelCase(item)}: () => ({arrow: "${item}"}), `) : ""
-
 
 // TODO make it a string prototype
 const toCamelCase = notCamelized => notCamelized.split(" ").map((item, index) => index === 0 ? item.toLowerCase() : capitalize(item)).join('');
