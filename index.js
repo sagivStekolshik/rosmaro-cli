@@ -20,7 +20,7 @@ program
     .option("-u, --url <url>", "get graph from a url")
     .action((env, { url
     }) => {
-        log(options.url)
+        log(url)
         log(chalk.greenBright.underline.dim('WIP'));
     });
 
