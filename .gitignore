@@ -1,3 +1,3 @@
 node_modules
 handlers
-graph.json
+./graph.json
