@@ -2,7 +2,7 @@
   "name": "rosmaro-cli",
   "version": "1.0.0",
   "description": "Command line interface for rosmaro",
-  "main": "index.js",
+  "main": "rosmaro.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,6 +10,9 @@
     "type": "git",
     "url": "git+https://github.com/sagivStekolshik/rosmaro-cli.git"
   },
+  "engines": {
+    "node": ">= 4"
+  }
   "keywords": [
     "rosmaro",
     "state-machine",
@@ -28,5 +31,5 @@
     "fs-extra": "^5.0.0",
     "js-beautify": "^1.7.5"
   },
-  "bin": { "rosmaro" : "./index.js" }
+  "bin": { "rosmaro" : "./bin/rosmaro.js" }
 }
