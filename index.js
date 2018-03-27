@@ -77,14 +77,11 @@ program
     })
 program.parse(process.argv);
 
+// TODO make it a string prototype
 const capitalize = string => string.charAt(0).toUpperCase() + string.slice(1);
 
-const addArrowStringToHandler = arrows => {
-    if (!arrows) return ""
-    const keys = Object.keys(arrows)
-    return keys.map(item => {
-        return `${toCamelCase(item)}: () => ({arrow: "${item}"}), `
-    })
-}
+const addArrowStringToHandler = arrows => arrows ? Object.keys(arrows).map(item => `${toCamelCase(item)}: () => ({arrow: "${item}"}), `) : ""
 
+
+// TODO make it a string prototype
 const toCamelCase = notCamelized => notCamelized.split(" ").map((item, index) => index === 0 ? item.toLowerCase() : capitalize(item)).join('');
