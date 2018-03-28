@@ -1,12 +1,12 @@
-
 'use strict';
 
 import program from 'commander'
-import pkg from '../package.json'
-const chalk = require('chalk')
-const fs = require('fs-extra')
-const axios = require('axios')
+import chalk from 'chalk'
+import fs from 'fs-extra'
+
+// const axios = require('axios')
 const beautify = require('js-beautify').js_beautify
+const pkg = require('../package.json')
 const { log } = console
 
 const defualtHandlerParams = '{ctx,thisModel,ModelNode}'
@@ -19,19 +19,11 @@ program
     .command('init [env]')
     .description('init rosmaro try')
     .option("-u, --url <required>", "get graph from a url")
-    .action(async (env, { url
-    }) => {
-        // try {
-        //     const fetchedUrl = await axios('https://github.com/sagivStekolshik/rosmaro-cli')
-        //     log(fetchedUrl);
-        // }
-        // catch (err) {
+    .action(async () => {
+        log(chalk.greenBright.dim('WIP'));
+    })
 
-        // }
-        log(chalk.greenBright.underline.dim('WIP'));
-    });
-
-/**
+/*
 |--------------------------------------------------
 | not sure if needed
 | you need to make change in the graph.json and then use update with more ease
@@ -91,6 +83,7 @@ program
         }
 
     })
+    
 program.parse(process.argv);
 
 // TODO make it a string prototype
