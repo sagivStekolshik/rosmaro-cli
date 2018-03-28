@@ -1,10 +1,11 @@
-#!/usr/bin/env node
+
 'use strict';
 
-const program = require('commander');
-const pkg = require('./package.json');
-const chalk = require('chalk');
-const fs = require('fs-extra');
+import program from 'commander'
+import pkg from '../package.json'
+const chalk = require('chalk')
+const fs = require('fs-extra')
+const axios = require('axios')
 const beautify = require('js-beautify').js_beautify
 const { log } = console
 
@@ -17,10 +18,16 @@ program
 program
     .command('init [env]')
     .description('init rosmaro try')
-    .option("-u, --url <url>", "get graph from a url")
-    .action((env, { url
+    .option("-u, --url <required>", "get graph from a url")
+    .action(async (env, { url
     }) => {
-        log(url)
+        // try {
+        //     const fetchedUrl = await axios('https://github.com/sagivStekolshik/rosmaro-cli')
+        //     log(fetchedUrl);
+        // }
+        // catch (err) {
+
+        // }
         log(chalk.greenBright.underline.dim('WIP'));
     });
 
@@ -40,7 +47,7 @@ program
 program
     .command('update [entry]')
     .description('Update ./handler from graph.json')
-    .option("-m, --handler-method <renderMethod>", `define the render method, ${defualtRenderField} by default`)
+    .option("-m, --handler-method <required>", `define the render method, ${defualtRenderField} by default`)
     .action(async (entry = "graph.json", { renderMethod = defualtRenderField }) => {
         log(chalk.blue.bold('Generating...'))
         // get the json representation of rosmaro

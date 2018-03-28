@@ -1,3 +1,3 @@
 #!/usr/bin/env node
 
-require('../rosmaro');
+require('../dist/rosmaro');
