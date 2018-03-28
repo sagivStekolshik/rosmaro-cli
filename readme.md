@@ -4,14 +4,18 @@ Remove the tedious boilerplating of rosmaro handlers, use `Rosmaro-cli` to cut d
 
 ## start rosmaro project 
 
+### install
+```
+    npm i -g rosmaro-cli
+```
 ### init
 ```javascript
-    rosmaro init
+    rosmaro init <project-name>
 ```
 Get rosmaro project started with `rosmaro-cli` init command.
 ### Start with specific framwork/library
 ```javascript
-    rosmaro init <framework>
+    rosmaro init <project-name> --framwork <framwork>
 ```
 Supported frameworks - `not supported yet workin' on it`
 * React - _Soon_
@@ -25,7 +29,7 @@ no code is written tho
 
 example
 ```javascript
-    rosmaro init <framework> -u "http://github.com/somethigsomethingdarkside"
+    rosmaro init <project-name> -f [framwork] -u "http://github.com/somethigsomethingdarkside"
 ```
 ### Update - Name TBD
 

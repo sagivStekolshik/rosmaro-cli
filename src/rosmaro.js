@@ -3,24 +3,43 @@
 import program from 'commander'
 import chalk from 'chalk'
 import fs from 'fs-extra'
+// import axios from 'axios'
+import generateGraphFromUrl from './generateGraphFromUrl'
 
-// const axios = require('axios')
 const beautify = require('js-beautify').js_beautify
 const pkg = require('../package.json')
 const { log } = console
 
 const defualtHandlerParams = '{ctx,thisModel,ModelNode}'
 const defualtRenderField = 'render'
+// add -v functionality
 program
     .version(pkg.version)
-    .option("-v, --version", pkg.version)
+    .option("-v, --version",pkg.version)
+    .option("-V, --Version",pkg.version)
 
+// init
 program
-    .command('init [env]')
+    .command('init <project-name>')
+    .alias("initialize")
     .description('init rosmaro try')
-    .option("-u, --url <required>", "get graph from a url")
-    .action(async () => {
-        log(chalk.greenBright.dim('WIP'));
+    .option("-u, --url <url>", "get graph from a url")
+    .option("-f,--framework <framework>", chalk`select a framework to base on. defaults to simple {blue console.log}`)
+    .action(async (projectName, {
+        url,
+        framework = "webpack"
+    } = {}) => {
+        try{
+        // get a valid rosmaro graph
+        const graph = await generateGraphFromUrl(url)
+        
+        
+        }
+        catch (err) {
+            log(chalk.redBright("An error occurred"),err)
+        }
+
+        log(chalk.greenBright.dim('init is still WIP'));
     })
 
 /*
@@ -28,14 +47,14 @@ program
 | not sure if needed
 | you need to make change in the graph.json and then use update with more ease
 |--------------------------------------------------
-*/
-// program
-//     .command('add <nodeName>')
-//     .description('add node to ./handler/all.js file and generate a template with nodeName.js')
-//     .action(nodeName => {
-//         log(chalk.red("Generating ", nodeName))
-//     })
 
+program
+    .command('add <nodeName>')
+    .description('add node to ./handler/all.js file and generate a template with nodeName.js')
+    .action(nodeName => {
+        log(chalk.red("Generating ", nodeName))
+    })
+*/
 program
     .command('update [entry]')
     .description('Update ./handler from graph.json')
@@ -83,7 +102,7 @@ program
         }
 
     })
-    
+
 program.parse(process.argv);
 
 // TODO make it a string prototype

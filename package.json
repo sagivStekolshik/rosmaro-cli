@@ -5,7 +5,10 @@
   "main": "rosmaro.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack --mode production && node ./dist/rosmaro update",
+    "prepublish": "npm run build",
+    "init": "npm run build && node ./dist/rosmaro init newProj",
+    "url": "npm run build && node ./dist/rosmaro init newProj -u https://raw.githubusercontent.com/lukaszmakuch/Rosmaro-React-example-Bunny-App/master/src/graph.json ",
+    "update": "npm run build && node ./dist/rosmaro update",
     "build": "webpack --mode production"
   },
   "repository": {
