@@ -31,25 +31,19 @@ program
         framework = "webpack"
     } = {}) => {
         try {
-            // get a valid rosmaro graph
-            const spinner = ora('ritual')
-            const graph = url && await generateGraphFromUrl(url)
-            setTimeout(() => {
-                spinner.color = 'yellow'
-                spinner.text = 'Loading rainbows'
-                spinner.start()
-            }, 1000)
+            const graphSpinner = ora()
+            // get a valid rosmaro graph if url is present
+            const graph = url && await generateGraphFromUrl(url,graphSpinner)
+            if (graph) graphSpinner.succeed(chalk.greenBright("Succescfully loaded graph.json from URL"))
 
-            setTimeout(() => {
-                spinner.succeed("ora succeed")
-            },3000)
-
+            log("I'm initing")
         }
         catch (err) {
-            log(chalk.redBright("An error occurred"), err)
+            if (err.spinner)
+                err.spinner.fail(chalk.redBright(err.msg))
+            else 
+                ora().fail(chalk.redBright(err))
         }
-
-        log(chalk.greenBright.dim('init is still WIP'));
     })
 
 /*
