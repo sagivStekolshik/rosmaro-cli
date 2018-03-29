@@ -13,6 +13,7 @@ const { log } = console
 
 const defualtHandlerParams = '{ctx,thisModel,ModelNode}'
 const defualtRenderField = 'render'
+const beautifyConfig = { indent_size: 2, jslint_happy: true }
 // add -v functionality
 program
     .version(pkg.version)
@@ -33,7 +34,7 @@ program
         try {
             const graphSpinner = ora()
             // get a valid rosmaro graph if url is present
-            const graph = url && await generateGraphFromUrl(url,graphSpinner)
+            const graph = url && await generateGraphFromUrl(url, graphSpinner)
             if (graph) graphSpinner.succeed(chalk.greenBright("Succescfully loaded graph.json from URL"))
 
             log("I'm initing")
@@ -41,7 +42,7 @@ program
         catch (err) {
             if (err.spinner)
                 err.spinner.fail(chalk.redBright(err.msg))
-            else 
+            else
                 ora().fail(chalk.redBright(err))
         }
     })
@@ -64,45 +65,49 @@ program
     .description('Update ./handler from graph.json')
     .option("-m, --handler-method <required>", `define the render method, ${defualtRenderField} by default`)
     .action(async (entry = "graph.json", { renderMethod = defualtRenderField }) => {
-        log(chalk.blue.bold('Generating...'))
         // get the json representation of rosmaro
         let graph = {}
-
+        const updateGraphSpinner = ora(chalk.blue.bold('Generating...')).start()
         try {
             graph = await fs.readJson(`${entry}`)
 
             if (!graph.main) {
-                log("Graph must contain main as enrty")
+                updateGraphSpinner.fail("Graph must contain main as enrty")
                 return
             }
+            updateGraphSpinner.succeed(chalk.green("fetched grph.json"))
         }
         catch (err) {
             // check if graph.json is present
-            log(chalk.red.bold(entry), "was not found or dose not contain Json")
+            updateGraphSpinner.fail(chalk.red(err))
             return
         }
+        const handlersSpinner = ora().start("generating handlers folder")
         try {
             await fs.ensureDir("./handlers")
+            handlersSpinner.text = 'genertaing main handler template'
             await fs.outputFile('./handlers/main.js',
-                beautify(`export default ()=>{initCtx: {}}`, { indent_size: 2 })
+                beautify(`export default ()=>{initCtx: {}}`,beautifyConfig)
             )
 
             const mainNodes = Object.keys(graph.main.nodes);
 
             // TODO make a more general thing and recursive if needed?
-            await Object.keys(graph.main.nodes).map((item) => {
-                fs.outputFile(`./handlers/${item}.js`,
-                    beautify(`export default (${defualtHandlerParams})=>({${addArrowStringToHandler(graph.main.arrows[item])} ${renderMethod || defualtRenderField}: ()=> {}})`, { indent_size: 2, jslint_happy: true })
+            await mainNodes.map(async (item) => {
+                handlersSpinner.text = `generating ${item} handler template`
+                await fs.outputFile(`./handlers/${item}.js`,
+                    beautify(`export default (${defualtHandlerParams})=>({${addArrowStringToHandler(graph.main.arrows[item])} ${renderMethod || defualtRenderField}: ()=> {}})`, beautifyConfig)
                 )
-                log(chalk`{green ${item} handler created }`)
+                // log(chalk`{green ${item} handler created }`)
             })
-
+            handlersSpinner.text = "generating all handler file"
             await fs.outputFile('./handlers/all.js',
                 beautify(`${mainNodes.map(node => `import ${node} from './${node}'`).join(" ")}  
                 export default ({${mainNodes},main})`)
             )
+            handlersSpinner.succeed(chalk.green("finished generating templates"))
         } catch (err) {
-            log(chalk.red.bold(`an error occured`, err))
+            handlersSpinner.fail(chalk.red.bold(err))
         }
 
     })
