@@ -3,6 +3,7 @@
 import program from 'commander'
 import chalk from 'chalk'
 import fs from 'fs-extra'
+import ora from 'ora'
 // import axios from 'axios'
 import generateGraphFromUrl from './generateGraphFromUrl'
 
@@ -15,8 +16,8 @@ const defualtRenderField = 'render'
 // add -v functionality
 program
     .version(pkg.version)
-    .option("-v, --version",pkg.version)
-    .option("-V, --Version",pkg.version)
+    .option("-v, --version", pkg.version)
+    .option("-V, --Version", pkg.version)
 
 // init
 program
@@ -29,14 +30,23 @@ program
         url,
         framework = "webpack"
     } = {}) => {
-        try{
-        // get a valid rosmaro graph
-        const graph = await generateGraphFromUrl(url)
-        
-        
+        try {
+            // get a valid rosmaro graph
+            const spinner = ora('ritual')
+            const graph = url && await generateGraphFromUrl(url)
+            setTimeout(() => {
+                spinner.color = 'yellow'
+                spinner.text = 'Loading rainbows'
+                spinner.start()
+            }, 1000)
+
+            setTimeout(() => {
+                spinner.succeed("ora succeed")
+            },3000)
+
         }
         catch (err) {
-            log(chalk.redBright("An error occurred"),err)
+            log(chalk.redBright("An error occurred"), err)
         }
 
         log(chalk.greenBright.dim('init is still WIP'));
