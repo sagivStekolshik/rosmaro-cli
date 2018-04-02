@@ -71,29 +71,26 @@ program
             text: chalk.blue.bold('Generating...'),
             color: "blue"
         })
-        let graph = await oraPromise(fs.readJson(`${entry}`), { spinner: updateGraphSpinner, succesText: "successss" })
-        
-        // try {
-
-        //     if (!graph.main) {
-        //         updateGraphSpinner.fail("Graph must contain main as enrty")
-        //         return
-        //     }
-        //     updateGraphSpinner.succeed(chalk.green("fetched grph.json"))
-        // }
-        // catch (err) {
-        //     // check if graph.json is present
-        //     updateGraphSpinner.fail(chalk.red(err))
-        //     return
-        // }
-        /*
+        let graph = await oraPromise(fs.readJson(`${entry}`), { spinner: updateGraphSpinner, succesText: "succesfully read graph" })
+        if(graph.errno) return
+        // validate graph
+        // TODO add more tests to verify integrity and make it a seperate function
+        if (!graph.main) {
+            updateGraphSpinner.fail("Graph must contain main as enrty")
+            return
+        }
         const handlersSpinner = ora().start("generating handlers folder")
-        try {
-            await fs.ensureDir("./handlers")
-            handlersSpinner.text = 'genertaing main handler template'
-            await fs.outputFile('./handlers/main.js',
+
+        await fs.ensureDir("./handlers")
+        handlersSpinner.text = 'genertaing main handler template'
+        await fs.outputFile('./handlers/main.js',
                 beautify(`export default ()=>{initCtx: {}}`, beautifyConfig)
             )
+
+            const mainNodes = Object.keys(graph.main.nodes);
+        setTimeout(() => handlersSpinner.stop(),2000)
+        /*
+        try {
 
             const mainNodes = Object.keys(graph.main.nodes);
 

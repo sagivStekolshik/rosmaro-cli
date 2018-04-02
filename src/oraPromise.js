@@ -1,7 +1,7 @@
 // a replacement function to pra.promise() until it will work proparly again
 import ora from 'ora'
 
-export default async (action, { succesText = "", failText = "", spinner = new Ora() } = {}) => {
+export default async (action, { succesText = " ", failText = " ", spinner = new Ora() } = {}) => {
   if (typeof action.then !== 'function') {
     throw new TypeError('Parameter `action` must be a Promise');
   }
