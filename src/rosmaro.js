@@ -6,6 +6,7 @@ import fs from 'fs-extra'
 import ora from 'ora'
 // import axios from 'axios'
 import generateGraphFromUrl from './generateGraphFromUrl'
+import oraPromise from './oraPromise'
 
 const beautify = require('js-beautify').js_beautify
 const pkg = require('../package.json')
