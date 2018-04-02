@@ -79,7 +79,7 @@ program
             updateGraphSpinner.fail("Graph must contain main as enrty")
             return
         }
-        // const handlersSpinner = Ora().start("generating handlers folder")
+        const handlersSpinner = new Ora().start("generating handlers folder")
 
         await fs.ensureDir("./handlers")
         await fs.outputFile('./handlers/main.js',
@@ -89,20 +89,20 @@ program
         const mainNodes = Object.keys(graph.main.nodes);
 
         mainNodes.map(async item => {
-            const spinner = new Ora({ text: chalk.blue(`Generating ${item} handler`), color: 'blue' })
             try {
+            handlersSpinner.text = chalk.blue(`Generating ${item} handler`)
+            
                 await fs.outputFile(`./handlers/${item}.js`,
                     beautify(`export default (${defualtHandlerParams})=>({${addArrowStringToHandler(graph.main.arrows[item])} ${renderMethod || defualtRenderField}: ()=> {}})`, beautifyConfig)
                 )
-                await new Promise( r => setTimeout(() => r(),1000))
-                spinner.succeed(chalk.green(`Created ${item} handler template`))
+                Ora().succeed(chalk.green(`Created ${item} handler template`))
             } catch (err) {
-                spinner.fail(chalk.red(err))
+                Ora().fail(chalk.red(err))
             }
 
         })
         // here so spinner wont get stuck
-        // setTimeout(() => handlersSpinner.stop(), 2000)
+        handlersSpinner.stop()
         /*
         try {
 
