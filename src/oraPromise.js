@@ -1,22 +1,32 @@
 // a replacement function to pra.promise() until it will work proparly again
 import ora from 'ora'
 
-export default (action, { text, color, succesText, failText } = {}) => {
+export default async (action, { succesText = "", failText = "", spinner = new Ora() } = {}) => {
   if (typeof action.then !== 'function') {
     throw new TypeError('Parameter `action` must be a Promise');
   }
 
-  const spinner = new Ora({ text, color });
-  spinner.start(text);
+  // const spinner = new Ora({ text, color });
+  spinner.start();
 
-  action
-    .then(
-      msg => {
-        spinner.succeed(msg.text ? msg.text : succesText);
-      })
-    .catch(err => {
-      spinner.fail(err ? err : failText);
-    })
+  try {
+    const res = await action
+    spinner.succeed(res.text ? res.text : succesText);
+    return res
+  }
+  catch (err) {
+    spinner.fail(err ? err : failText);
+    return err
+  }
 
-  return spinner;
+  // action
+  //   .then(
+  //     res => {
+  //       spinner.succeed(res.text ? res.text : succesText);
+  //       return res
+  //     })
+  //   .catch(err => {
+  //     spinner.fail(err ? err : failText);
+  //     return err
+  //   })
 }

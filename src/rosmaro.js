@@ -67,28 +67,32 @@ program
     .option("-m, --handler-method <required>", `define the render method, ${defualtRenderField} by default`)
     .action(async (entry = "graph.json", { renderMethod = defualtRenderField }) => {
         // get the json representation of rosmaro
-        let graph = {}
-        const updateGraphSpinner = ora(chalk.blue.bold('Generating...')).start()
-        try {
-            graph = await fs.readJson(`${entry}`)
+        const updateGraphSpinner = ora({
+            text: chalk.blue.bold('Generating...'),
+            color: "blue"
+        })
+        let graph = await oraPromise(fs.readJson(`${entry}`), { spinner: updateGraphSpinner, succesText: "successss" })
+        
+        // try {
 
-            if (!graph.main) {
-                updateGraphSpinner.fail("Graph must contain main as enrty")
-                return
-            }
-            updateGraphSpinner.succeed(chalk.green("fetched grph.json"))
-        }
-        catch (err) {
-            // check if graph.json is present
-            updateGraphSpinner.fail(chalk.red(err))
-            return
-        }
+        //     if (!graph.main) {
+        //         updateGraphSpinner.fail("Graph must contain main as enrty")
+        //         return
+        //     }
+        //     updateGraphSpinner.succeed(chalk.green("fetched grph.json"))
+        // }
+        // catch (err) {
+        //     // check if graph.json is present
+        //     updateGraphSpinner.fail(chalk.red(err))
+        //     return
+        // }
+        /*
         const handlersSpinner = ora().start("generating handlers folder")
         try {
             await fs.ensureDir("./handlers")
             handlersSpinner.text = 'genertaing main handler template'
             await fs.outputFile('./handlers/main.js',
-                beautify(`export default ()=>{initCtx: {}}`,beautifyConfig)
+                beautify(`export default ()=>{initCtx: {}}`, beautifyConfig)
             )
 
             const mainNodes = Object.keys(graph.main.nodes);
@@ -110,6 +114,7 @@ program
         } catch (err) {
             handlersSpinner.fail(chalk.red.bold(err))
         }
+        */
 
     })
 

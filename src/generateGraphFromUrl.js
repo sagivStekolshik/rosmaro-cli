@@ -13,7 +13,7 @@ export default async (url, spinner) => new Promise(async (res, rej) => {
         if (!data.main) return rej(chalk.red(`Graph must contain main node`))
 
         // need more test for the graph
-        return res(data);
+        return res({data: data});
     }
     catch (err) {
         return rej(chalk.red(err))
