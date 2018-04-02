@@ -3,7 +3,7 @@
 import program from 'commander'
 import chalk from 'chalk'
 import fs from 'fs-extra'
-import ora from 'ora'
+import Ora from 'ora'
 // import axios from 'axios'
 import generateGraphFromUrl from './generateGraphFromUrl'
 import oraPromise from './oraPromise'
@@ -33,7 +33,7 @@ program
         framework = "webpack"
     } = {}) => {
         try {
-            const graphSpinner = ora()
+            const graphSpinner = Ora()
             // get a valid rosmaro graph if url is present
             const graph = url && await generateGraphFromUrl(url, graphSpinner)
             if (graph) graphSpinner.succeed(chalk.greenBright("Succescfully loaded graph.json from URL"))
@@ -67,28 +67,42 @@ program
     .option("-m, --handler-method <required>", `define the render method, ${defualtRenderField} by default`)
     .action(async (entry = "graph.json", { renderMethod = defualtRenderField }) => {
         // get the json representation of rosmaro
-        const updateGraphSpinner = ora({
+        const updateGraphSpinner = Ora({
             text: chalk.blue.bold('Generating...'),
             color: "blue"
         })
-        let graph = await oraPromise(fs.readJson(`${entry}`), { spinner: updateGraphSpinner, succesText: "succesfully read graph" })
-        if(graph.errno) return
+        let graph = await oraPromise(fs.readJson(`${entry}`), { spinner: updateGraphSpinner, succesText: chalk.green("succesfully read graph.json") })
+        if (graph.errno) return
         // validate graph
         // TODO add more tests to verify integrity and make it a seperate function
         if (!graph.main) {
             updateGraphSpinner.fail("Graph must contain main as enrty")
             return
         }
-        const handlersSpinner = ora().start("generating handlers folder")
+        // const handlersSpinner = Ora().start("generating handlers folder")
 
         await fs.ensureDir("./handlers")
-        handlersSpinner.text = 'genertaing main handler template'
         await fs.outputFile('./handlers/main.js',
-                beautify(`export default ()=>{initCtx: {}}`, beautifyConfig)
-            )
+            beautify(`export default ()=>{initCtx: {}}`, beautifyConfig)
+        )
 
-            const mainNodes = Object.keys(graph.main.nodes);
-        setTimeout(() => handlersSpinner.stop(),2000)
+        const mainNodes = Object.keys(graph.main.nodes);
+
+        mainNodes.map(async item => {
+            const spinner = new Ora({ text: chalk.blue(`Generating ${item} handler`), color: 'blue' })
+            try {
+                await fs.outputFile(`./handlers/${item}.js`,
+                    beautify(`export default (${defualtHandlerParams})=>({${addArrowStringToHandler(graph.main.arrows[item])} ${renderMethod || defualtRenderField}: ()=> {}})`, beautifyConfig)
+                )
+                await new Promise( r => setTimeout(() => r(),1000))
+                spinner.succeed(chalk.green(`Created ${item} handler template`))
+            } catch (err) {
+                spinner.fail(chalk.red(err))
+            }
+
+        })
+        // here so spinner wont get stuck
+        // setTimeout(() => handlersSpinner.stop(), 2000)
         /*
         try {
 
