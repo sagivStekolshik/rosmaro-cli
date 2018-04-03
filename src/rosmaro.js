@@ -4,11 +4,12 @@ import program from 'commander'
 import chalk from 'chalk'
 import fs from 'fs-extra'
 import Ora from 'ora'
-// import axios from 'axios'
-import generateGraphFromUrl from './generateGraphFromUrl'
-import oraPromise from './oraPromise'
-
 const beautify = require('js-beautify').js_beautify
+// import axios from 'axios'
+import oraPromise from './oraPromise'
+import generateGraphFromUrl from './generateGraphFromUrl'
+import handlerGenerator from './recursiveHandlergenerator'
+
 const pkg = require('../package.json')
 const { log } = console
 
@@ -79,54 +80,35 @@ program
             updateGraphSpinner.fail("Graph must contain main as enrty")
             return
         }
-        const handlersSpinner = new Ora().start("generating handlers folder")
+        // const handlersSpinner = new Ora().start("generating handlers folder")
 
         await fs.ensureDir("./handlers")
         await fs.outputFile('./handlers/main.js',
             beautify(`export default ()=>{initCtx: {}}`, beautifyConfig)
         )
-
-        const mainNodes = Object.keys(graph.main.nodes);
-
-        mainNodes.map(async item => {
-            try {
-            handlersSpinner.text = chalk.blue(`Generating ${item} handler`)
-            
-                await fs.outputFile(`./handlers/${item}.js`,
-                    beautify(`export default (${defualtHandlerParams})=>({${addArrowStringToHandler(graph.main.arrows[item])} ${renderMethod || defualtRenderField}: ()=> {}})`, beautifyConfig)
-                )
-                Ora().succeed(chalk.green(`Created ${item} handler template`))
-            } catch (err) {
-                Ora().fail(chalk.red(err))
-            }
-
-        })
-        // here so spinner wont get stuck
-        handlersSpinner.stop()
-        /*
         try {
-
-            const mainNodes = Object.keys(graph.main.nodes);
-
-            // TODO make a more general thing and recursive if needed?
-            await mainNodes.map(async (item) => {
-                handlersSpinner.text = `generating ${item} handler template`
-                await fs.outputFile(`./handlers/${item}.js`,
-                    beautify(`export default (${defualtHandlerParams})=>({${addArrowStringToHandler(graph.main.arrows[item])} ${renderMethod || defualtRenderField}: ()=> {}})`, beautifyConfig)
-                )
-                // log(chalk`{green ${item} handler created }`)
-            })
-            handlersSpinner.text = "generating all handler file"
-            await fs.outputFile('./handlers/all.js',
-                beautify(`${mainNodes.map(node => `import ${node} from './${node}'`).join(" ")}  
-                export default ({${mainNodes},main})`)
-            )
-            handlersSpinner.succeed(chalk.green("finished generating templates"))
+            await handlerGenerator({ graph })
         } catch (err) {
-            handlersSpinner.fail(chalk.red.bold(err))
+            Ora.fail(chalk.red(err))
+            return
         }
-        */
+        // TODO: add all.js file with all ./handlers content
+        // const mainNodes = Object.keys(graph.main.nodes);
 
+        // mainNodes.map(async item => {
+        //     try {
+        //     handlersSpinner.text = chalk.blue(`Generating ${item} handler`)
+
+                // await fs.outputFile(`./handlers/${item}.js`,
+                //     beautify(`export default (${defualtHandlerParams})=>({${addArrowStringToHandler(graph.main.arrows[item])} ${renderMethod || defualtRenderField}: ()=> {}})`, beautifyConfig)
+                // )
+        //         Ora().succeed(chalk.green(`Created ${item} handler template`))
+        //     } catch (err) {
+        //         Ora().fail(chalk.red(err))
+        //     }
+
+        // })
+        // here so spinner wont get stuck
     })
 
 program.parse(process.argv);

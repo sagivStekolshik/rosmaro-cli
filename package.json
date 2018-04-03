@@ -9,7 +9,9 @@
     "init": "npm run build && node ./dist/rosmaro init newProj",
     "url": "npm run build && node ./dist/rosmaro init newProj -u https://raw.githubusercontent.com/lukaszmakuch/Rosmaro-React-example-Bunny-App/master/src/graph.json ",
     "update": "npm run build && node ./dist/rosmaro update",
-    "build": "webpack --mode production"
+    "update-debug": "npm run build-dev && node ./dist/rosmaro update",
+    "build": "webpack --mode production",
+    "build-dev": "webpack --mode development"
   },
   "repository": {
     "type": "git",
