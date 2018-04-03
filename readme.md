@@ -17,12 +17,12 @@ In case you download it localy to run rosmaro-cli you need to call `node_modules
 
 ## Update - Name TBD
 
-Harness `rosmaro-cli` Update command for when you have a new `graph` ready and need to make all that boilerplating of handlers
+Harness `rosmaro-cli` Update command for when you have a new `graph` ready and need to make all that boilerplating of handlers. just run the command and fill in the necessary UI, no boilerpalting needed 
 
 ```javascript
     rosmaro update
 ```
-Update command will generate handlers template with the node name as the file name in handlers folder, add all arrows as a camelCased field to the handler json and include the handler in all.js file
+Update command will generate handlers template with the node name as the file name in the handlers folder, add all node arrows as a field to the handler JSON camelCased for convenience and include the handler in all.js file. and generate the main handler
 
 ### example of handler
 ```javascript
