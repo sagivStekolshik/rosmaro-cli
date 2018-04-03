@@ -86,12 +86,22 @@ program
         await fs.outputFile('./handlers/main.js',
             beautify(`export default ()=>{initCtx: {}}`, beautifyConfig)
         )
+
         try {
             await handlerGenerator({ graph })
         } catch (err) {
             Ora.fail(chalk.red(err))
             return
         }
+
+        const handlers = await new Promise((res,rej) => fs.readdir('./handlers' , (err,files) => {
+            if(err) rej(err);
+            res(files.map(file => file.slice(0,file.length - 3)));
+        }))
+
+        await await fs.outputFile(`./handlers/all.js`,
+            beautify(`${handlers.map(handler => `import ${handler} from './${handler}'`).join(" ")} export default {${handlers.join(",")}}`, beautifyConfig)
+        )
         // TODO: add all.js file with all ./handlers content
         // const mainNodes = Object.keys(graph.main.nodes);
 

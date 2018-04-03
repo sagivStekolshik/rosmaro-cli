@@ -14,7 +14,7 @@ const handlerGenerator = async ({
         case 'leaf': {
             // add arrow handler and stuff
             return await fs.outputFile(`./handlers/${node}.js`,
-                beautify(`export default ({ctx,thisModel,ModelNode})=>({ render: ()=> {}})`, beautifyConfig)
+                beautify(`export default { render: ({ctx,thisModel,ModelNode}) => {} }`, beautifyConfig)
             )
         }
         case 'graph': {
@@ -23,23 +23,36 @@ const handlerGenerator = async ({
             // TODO: create file from graphTemplate
             return nodes.map(async node => {
                 await fs.outputFile(`./handlers/${node}.js`,
-                    beautify(`export default ()=>{}`, beautifyConfig)
+                    beautify(`export default { }`, beautifyConfig)
                 )
                 return await handlerGenerator({ graph, node, path })
             })
 
         }
-        case 'composite': { // ensure no duplicate underlayer with Set and spread operator
+        case 'composite': { 
+            // ensure no duplicate underlayer with Set and spread operator
             const nodes = [... new Set(Object.values(graph[node].nodes))]
             // TODO: create file from compositeTemplate
             return nodes.map(async node => {
                 await fs.outputFile(`./handlers/${node}.js`,
-                    beautify(`export default ({res})=>{}`, beautifyConfig)
+                    beautify(`export default { afterRender: ({res}) => {
+                        const {${nodes.join(',')}} = res
+                    }}`, beautifyConfig)
                 )
                 return await handlerGenerator({ graph, node, path })
             })
         }
-        case 'dynamicComposite': console.log('dynamicComposite'); return;
+        case 'dynamicComposite':{ 
+            // ensure no duplicate underlayer with Set and spread operator
+            const nodes = [... new Set(Object.values(graph[node].nodes))]
+            // TODO: create file from compositeTemplate
+            return nodes.map(async node => {
+                await fs.outputFile(`./handlers/${node}.js`,
+                    beautify(`export default () => {afterRender: ({res}) => {}}`, beautifyConfig)
+                )
+                return await handlerGenerator({ graph, node, path })
+            })
+        }
         default: throw new TypeError(`${graph[currentNode].type} is not part of rosmaro`)
     }
 
