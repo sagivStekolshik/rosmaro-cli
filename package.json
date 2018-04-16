@@ -7,7 +7,8 @@
     "rosmaro-cli": "rosmaro.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "webpack  --mode development && npm start",
+    "start": "node dist/rosmaro.js",
     "prepublish": "npm run build"
   },
   "engines": {
@@ -16,6 +17,12 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sagivStekolshik/rosmaro-cli.git"
+  },
+  "babel": {
+    "presets": [
+      "env",
+      "stage-2"
+    ]
   },
   "keywords": [
     "rosmaro",
@@ -27,5 +34,13 @@
   "bugs": {
     "url": "https://github.com/sagivStekolshik/rosmaro-cli/issues"
   },
-  "homepage": "https://github.com/sagivStekolshik/rosmaro-cli#readme"
+  "homepage": "https://github.com/sagivStekolshik/rosmaro-cli#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "webpack": "^4.5.0",
+    "webpack-cli": "^2.0.14"
+  }
 }
