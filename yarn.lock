@@ -1551,6 +1551,10 @@ decompress-response@^3.2.0, decompress-response@^3.3.0:
   dependencies:
     mimic-response "^1.0.0"
 
+deep-diff@^0.3.8:
+  version "0.3.8"
+  resolved "https://registry.yarnpkg.com/deep-diff/-/deep-diff-0.3.8.tgz#c01de63efb0eec9798801d40c7e0dae25b582c84"
+
 deep-extend@^0.4.0, deep-extend@~0.4.0:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/deep-extend/-/deep-extend-0.4.2.tgz#48b699c27e334bf89f10892be432f6e4c7d34a7f"
@@ -3819,6 +3823,10 @@ quick-lru@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/quick-lru/-/quick-lru-1.1.0.tgz#4360b17c61136ad38078397ff11416e186dcfbb8"
 
+ramda@^0.25.0:
+  version "0.25.0"
+  resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.25.0.tgz#8fdf68231cffa90bc2f9460390a0cb74a29b29a9"
+
 randomatic@^1.1.3:
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/randomatic/-/randomatic-1.1.7.tgz#c7abe9cc8b87c0baa876b19fde83fd464797e38c"
@@ -4098,6 +4106,23 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
   dependencies:
     hash-base "^2.0.0"
     inherits "^2.0.1"
+
+rosmaro-in-memory-storage@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/rosmaro-in-memory-storage/-/rosmaro-in-memory-storage-1.2.0.tgz#8067edbd159c08e00c1a0041c4d2c86d690425fb"
+
+rosmaro-process-wide-lock@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/rosmaro-process-wide-lock/-/rosmaro-process-wide-lock-1.2.0.tgz#0e6570485929ddb744a94e3e21f23fc85d0c53a0"
+
+rosmaro@^0.7.2:
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/rosmaro/-/rosmaro-0.7.2.tgz#198a4b300daa4dcb14da44fdca1f76b9c7dad750"
+  dependencies:
+    deep-diff "^0.3.8"
+    lodash "^4.17.4"
+    ramda "^0.25.0"
+    uuid "^3.0.1"
 
 run-async@^2.0.0, run-async@^2.2.0:
   version "2.3.0"
@@ -4784,7 +4809,7 @@ util@0.10.3, util@^0.10.3:
   dependencies:
     inherits "2.0.1"
 
-uuid@^3.0.0:
+uuid@^3.0.0, uuid@^3.0.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.2.1.tgz#12c528bb9d58d0b9265d9a2f6f0fe8be17ff1f14"
 

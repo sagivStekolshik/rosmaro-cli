@@ -3,13 +3,12 @@
 import { h, render} from 'ink'
 import App from './App'
 
-const unmount = render(<App />);
+const unMount = render(<App />);
 
 /**
 |--------------------------------------------------
 | its for now!!!
-| usually use process.exit() instead
-| add a rosmaro leaf with this functionality
+| add a rosmaro leaf with process.exit() functionality to exit properly
 |--------------------------------------------------
 */
-setTimeout(() => unmount(), 5000)
+setTimeout(() => unMount(), 5000)

@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "webpack  --mode development && npm start",
-    "start": "node dist/rosmaro.js init --url url -b=b -c c",
+    "start": "node dist/rosmaro.js update --clean",
     "build": "webpack  --mode production",
     "prepublish": "npm run build"
   },
