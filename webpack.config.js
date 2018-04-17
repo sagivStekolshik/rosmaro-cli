@@ -14,5 +14,8 @@ module.exports = {
                 }
             }
         ]
+    },
+    resolve: {
+        alias: {"tinycolor": "tinycolor2"},
     }
 }

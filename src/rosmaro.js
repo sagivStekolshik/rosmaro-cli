@@ -1,7 +1,15 @@
 'use strict'
 
-const a = () => {
-    console.log("hi im from mars");
-}
+import { h, render} from 'ink'
+import App from './App'
 
-a()
+const unmount = render(<App />);
+
+/**
+|--------------------------------------------------
+| its for now!!!
+| usually use process.exit() instead
+| add a rosmaro leaf with this functionality
+|--------------------------------------------------
+*/
+setTimeout(() => unmount(), 5000)

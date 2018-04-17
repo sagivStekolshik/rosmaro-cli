@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "webpack  --mode development && npm start",
-    "start": "node dist/rosmaro.js",
+    "start": "node dist/rosmaro.js init --url url -b=b -c c",
+    "build": "webpack  --mode production",
     "prepublish": "npm run build"
   },
   "engines": {
@@ -20,8 +21,15 @@
   },
   "babel": {
     "presets": [
-      "env",
       "stage-2"
+    ],
+    "plugins": [
+      [
+        "transform-react-jsx",
+        {
+          "pragma": "h"
+        }
+      ]
     ]
   },
   "keywords": [
@@ -38,9 +46,20 @@
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-preset-env": "^1.6.1",
     "babel-preset-stage-2": "^6.24.1",
     "webpack": "^4.5.0",
     "webpack-cli": "^2.0.14"
+  },
+  "dependencies": {
+    "fs-extra": "^5.0.0",
+    "ink": "^0.4.1",
+    "ink-big-text": "^0.2.0",
+    "ink-gradient": "^0.1.1",
+    "ink-text-animation": "^0.1.0",
+    "rosmaro": "^0.7.2",
+    "rosmaro-in-memory-storage": "^1.2.0",
+    "rosmaro-process-wide-lock": "^1.2.0"
   }
 }
