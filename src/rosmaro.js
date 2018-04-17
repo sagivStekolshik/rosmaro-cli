@@ -11,4 +11,4 @@ const unMount = render(<App />);
 | add a rosmaro leaf with process.exit() functionality to exit properly
 |--------------------------------------------------
 */
-setTimeout(() => unMount(), 5000)
+setTimeout(() => unMount(), 3000)
