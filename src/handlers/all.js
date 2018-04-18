@@ -1,9 +1,5 @@
-import main from './main'
-import on from './on'
-import off from './off'
+import Exit from './Exit'
 
 export default {
-  main,
-  off,
-  on
+    Exit
 }

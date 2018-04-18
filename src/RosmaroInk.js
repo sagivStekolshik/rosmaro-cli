@@ -1,6 +1,6 @@
 import { h, Component } from "ink";
-import rosmaro from 'rosmaro';
 import makeStorage from 'rosmaro-in-memory-storage';
+import rosmaro from 'rosmaro';
 import makeLock from 'rosmaro-process-wide-lock';
 
 class RosmaroInk extends Component {

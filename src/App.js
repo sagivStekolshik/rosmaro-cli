@@ -12,6 +12,7 @@ class App extends Component {
             <div>
                 <RosmaroBigText name="rainbow" />
                 <RosmaroInk
+                    additive
                     graph={graph}
                     handlers={{
                         ...all,
