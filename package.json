@@ -7,8 +7,9 @@
     "rosmaro-cli": "rosmaro.js"
   },
   "scripts": {
-    "test": "webpack  --mode development && npm start",
+    "test": "webpack --mode development && npm start",
     "start": "node dist/rosmaro.js update",
+    "watch": "webpack --mode development --watch",
     "build": "webpack  --mode production",
     "prepublish": "npm run build"
   },
@@ -57,6 +58,7 @@
     "ink": "^0.4.1",
     "ink-big-text": "^0.2.0",
     "ink-gradient": "^0.1.1",
+    "ink-spinner": "^1.0.0",
     "ink-text-animation": "^0.1.0",
     "rosmaro": "^0.7.2",
     "rosmaro-in-memory-storage": "^1.2.0",

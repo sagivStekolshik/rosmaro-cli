@@ -22,7 +22,13 @@ class App extends Component {
 }
 
 App.defaultProps = {
-    args: argParser(process.argv.slice(2))
+    args: argParser(process.argv.slice(2), {
+        alias: {
+            url: ['u'],
+            version: ['v'],
+            help: ['h']
+        }
+    })
 }
 
 export default App

@@ -14,6 +14,61 @@
   "BigText": {
     "type": "leaf"
   },
+  "ValidateGraph": {
+    "type": "leaf"
+  },
+  "WriteGraphToFile": {
+    "type": "leaf"
+  },
+  "Done": {
+    "type": "leaf"
+  },
+  "Graph": {
+    "type": "graph",
+    "nodes": {
+      "ReadGraph": "ReadGraph",
+      "ValidateUrlGraph": "ValidateGraph",
+      "ValidateFileGraph": "ValidateGraph",
+      "WriteGraphToFile": "WriteGraphToFile",
+      "Done": "Done"
+    },
+    "arrows": {
+      "ReadGraph": {
+        "graph from url": {
+          "target": "ValidateUrlGraph",
+          "entryPoint": "start"
+        },
+        "graph from file": {
+          "target": "ValidateFileGraph",
+          "entryPoint": "start"
+        }
+      },
+      "ValidateUrlGraph": {
+        "valid graph": {
+          "target": "WriteGraphToFile",
+          "entryPoint": "start"
+        }
+      },
+      "WriteGraphToFile": {
+        "done": {
+          "target": "Done",
+          "entryPoint": "start"
+        }
+      },
+      "ValidateFileGraph": {
+        "done": {
+          "target": "Done",
+          "entryPoint": "start"
+        }
+      }
+    },
+    "entryPoints": {
+      "start": {
+        "target": "ReadGraph",
+        "entryPoint": "start"
+      }
+    }
+  },
   "UpdateApp": {
     "type": "graph",
     "nodes": {
@@ -69,12 +124,17 @@
     "type": "graph",
     "nodes": {
       "Exit": "Exit",
-      "App": "App"
+      "App": "App",
+      "Error": "Error"
     },
     "arrows": {
       "App": {
         "exit": {
           "target": "Exit",
+          "entryPoint": "start"
+        },
+        "error": {
+          "target": "Error",
           "entryPoint": "start"
         }
       }
@@ -86,59 +146,7 @@
       }
     }
   },
-  "Graph": {
-    "type": "graph",
-    "nodes": {
-      "ReadGraph": "ReadGraph",
-      "ValidateUrlGraph": "ValidateGraph",
-      "ValidateFileGraph": "ValidateGraph",
-      "WriteGraphToFile": "WriteGraphToFile",
-      "Done": "Done"
-    },
-    "arrows": {
-      "ReadGraph": {
-        "graph from url": {
-          "target": "ValidateUrlGraph",
-          "entryPoint": "start"
-        },
-        "graph from file": {
-          "target": "ValidateFileGraph",
-          "entryPoint": "start"
-        }
-      },
-      "ValidateUrlGraph": {
-        "valide graph": {
-          "target": "WriteGraphToFile",
-          "entryPoint": "start"
-        }
-      },
-      "WriteGraphToFile": {
-        "done": {
-          "target": "Done",
-          "entryPoint": "start"
-        }
-      },
-      "ValidateFileGraph": {
-        "done": {
-          "target": "Done",
-          "entryPoint": "start"
-        }
-      }
-    },
-    "entryPoints": {
-      "start": {
-        "target": "ReadGraph",
-        "entryPoint": "start"
-      }
-    }
-  },
-  "Done": {
-    "type": "leaf"
-  },
-  "ValidateGraph": {
-    "type": "leaf"
-  },
-  "WriteGraphToFile": {
+  "Error": {
     "type": "leaf"
   },
   "ReadGraph": {

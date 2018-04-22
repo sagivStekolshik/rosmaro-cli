@@ -1,3 +1,7 @@
 export default {
-    initCtx: {}
+    initCtx: {
+        graph: {},
+        err: null,
+        aggregatedView: null
+    }
 }

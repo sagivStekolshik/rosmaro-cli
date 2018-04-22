@@ -7,6 +7,7 @@ export default {
         return (
             <div>
                 {res.BigText}
+                {res.UpdateApp}
             </div>
         )
     }
