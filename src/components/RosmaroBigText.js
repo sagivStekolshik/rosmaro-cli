@@ -2,9 +2,9 @@ import { h, Text } from 'ink'
 import TextAnimation from 'ink-text-animation'
 
 
-export default ({ name = "glitch" }) => (
+const RosmaroBigText = ({name}) => (
     <div>
-        <TextAnimation name={name} >
+        <TextAnimation name={name}>
             <Text>
                 <div>  _ __ ___  ___ _ __ ___   __ _ _ __ ___ </div>
                 <div> | '__/ _ \/ __| '_ ` _ \ / _` | '__/ _ \ </div>
@@ -14,3 +14,9 @@ export default ({ name = "glitch" }) => (
         </TextAnimation>
     </div>
 )
+
+RosmaroBigText.defaultProps ={
+    name: 'rainbow'
+}
+
+export default RosmaroBigText

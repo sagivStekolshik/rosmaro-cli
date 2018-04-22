@@ -1,16 +1,25 @@
+
 export default {
-    go: arrow => ({ arrow }),
+    goToExit: () => ({ arrow: 'exit' }),
+    goToInit: () => ({ arrow: 'exit' }),
+    goToUpdate: () => ({ arrow: 'update' }),
+    goToVersion: () => ({ arrow: 'version' }),
+    goToHelp: () => ({ arrow: 'help' }),
+
     render: ({ ctx, thisModel }) => {
-        if (ctx._[0] === "update")
-            thisModel.go('update')
+        if (ctx.args._[0] === "update")
+            thisModel.goToUpdate()
         // if trying to init rosmaro-cli will exit for now
         // its a WIP
-        if (ctx._[0] === 'init')
-            thisModel.go('exit')
-        if(ctx.version || ctx.v)
-            thisModel.go('version')
-        if(ctx.help || ctx.h)
-            thisModel.go('help')
-        thisModel.go('exit')
+        if (ctx.args._[0] === 'init')
+            thisModel.goToInit()
+        if (ctx.args.version || ctx.args.v)
+            thisModel.goToVersion()
+        if (ctx.args.help || ctx.args.h)
+            thisModel.goToHelp()
+        // default is init
+        if (ctx.args._[0] === '')
+            thisModel.goToInit()
+        thisModel.goToExit()
     }
 }
