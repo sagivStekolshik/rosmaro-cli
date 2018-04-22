@@ -25,7 +25,11 @@ class RosmaroInk extends Component {
     }
 
     render() {
-        return this.state.view;
+        return (
+            <div>
+                {this.state.view}
+            </div>
+        )
     }
 }
 

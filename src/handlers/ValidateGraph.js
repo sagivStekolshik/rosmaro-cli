@@ -2,7 +2,7 @@
 
 export default {
     error: ({ ctx, err }) => ({ arrow: 'error', err }),
-    done: () => ({arrow: 'done'}),
+    done: () => ({arrow: 'exit'}),
     validGraph: () => ({arrow: 'valid graph'}),
     render: ({ ctx: { graph,url }, thisModel }) => {
         if (!graph.main) thisModel.error({

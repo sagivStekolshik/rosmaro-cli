@@ -60,6 +60,7 @@
     "ink-gradient": "^0.1.1",
     "ink-spinner": "^1.0.0",
     "ink-text-animation": "^0.1.0",
+    "node-fetch": "^2.1.2",
     "rosmaro": "^0.7.2",
     "rosmaro-in-memory-storage": "^1.2.0",
     "rosmaro-process-wide-lock": "^1.2.0"
