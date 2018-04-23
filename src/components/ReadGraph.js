@@ -15,7 +15,8 @@ class ReadGraph extends Component {
         setTimeout(() => {
             this.getGraph(this.state.readType)
                 .then(graph => this.setState({ msg: 'successfully read graph' }, () => {
-                    this.props.thisModel[`graphFrom${this.state.readType}`]({ graph })
+                    // this.props.thisModel[`graphFrom${this.state.readType}`]({ graph })
+                    this.props.thisModel.graphFromUrl({ graph })
                 }))
                 .catch(err => this.props.thisModel.error({ err }))
         }, 500)
